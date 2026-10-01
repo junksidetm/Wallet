@@ -1,7 +1,7 @@
 # Wallet (Native Jetpack Compose)
 
 <p align="center">
-  <a href="https://github.com/mrdarksidetm/Wallet/actions/workflows/android-ci.yml"><img src="https://github.com/mrdarksidetm/Wallet/actions/workflows/android-ci.yml/badge.svg" alt="CI Status" /></a>
+  <a href="https://github.com/junksidetm/Wallet/actions/workflows/android-ci.yml"><img src="https://github.com/junksidetm/Wallet/actions/workflows/android-ci.yml/badge.svg" alt="CI Status" /></a>
   <a href="https://m3.material.io/"><img src="https://img.shields.io/badge/Design-Material_3_Expressive-0061A4?style=flat-square" alt="Material 3 Expressive" /></a>
   <a href="https://developer.android.com/jetpack/compose"><img src="https://img.shields.io/badge/UI-Jetpack_Compose-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose" /></a>
   <a href="https://developer.android.com/training/data-storage/room"><img src="https://img.shields.io/badge/Storage-Room_SQLite-3DDC84?style=flat-square&logo=sqlite&logoColor=white" alt="Room SQLite" /></a>
@@ -159,7 +159,7 @@ Wallet/main/
 
 ## 👤 Developer & Philosophy
 
-Built with ❤️ by **Abhijeet Yadav** ([@mrdarksidetm](https://github.com/mrdarksidetm)).
+Built with ❤️ by **Abhijeet Yadav** ([@junksidetm](https://github.com/junksidetm)).
 
 Wallet is engineered with an **Offline-First, Zero-Telemetry Mandate**: your financial data belongs exclusively to you on your hardware, never in the cloud.
 
