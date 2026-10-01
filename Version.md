@@ -123,3 +123,19 @@
   - `docs/index.html`
   - `Version.md`
 - **Status:** 100% (Complete, verified, ready for GitHub remote verification).
+
+## [2026-09-27 12:00:00 IST] - Codeberg Migration & Native Android Repository Setup
+- **Action:** Configured secondary and primary mirror remotes for Codeberg (`codeberg.org/mrdarksidetm/Wallet`), validated SSH ED25519 signed commits, and configured Forgejo Actions workflow compatibility.
+- **Changes:**
+  - **Remote Architecture:** Added Codeberg Git remote `git@codeberg.org:mrdarksidetm/Wallet.git`.
+  - **Cryptographic Signing:** Configured SSH commit signing with `id_ed25519_signing` for Codeberg verified commit status.
+  - **CI/CD:** Prepared `.github/workflows/android-ci.yml` for Forgejo Actions execution.
+- **Status:** 100% (Remote and cryptographic signing verified).
+
+## [2026-10-01 12:38:00 IST] - GitHub junksidetm Setup & Tri-Platform Multi-Push Remote
+- **Action**: Created new GitHub repository under `junksidetm/Wallet` and configured simultaneous multi-push synchronization across GitHub, GitLab, and Codeberg.
+- **Changes**:
+  - **Remote Architecture:** Configured `origin` remote to push concurrently to GitHub (`https://github.com/junksidetm/Wallet.git`), GitLab (`git@gitlab.com:mrdarksidetm/Wallet.git`), and Codeberg (`git@codeberg.org:mrdarksidetm/Wallet.git`).
+  - **Credential & Identity Mapping:** Configured conditional Git identity (`.gitconfig-github`) utilizing `junksidetm <331540275+junksidetm@users.noreply.github.com>` for GitHub while maintaining `mrdarksidetm <ajukr99901@gmail.com>` for GitLab and Codeberg.
+  - **Branch Synchronization:** Pushed `main` branch and tags to `junksidetm/Wallet`.
+- **Status:** 100% (GitHub repository created, multi-push remote active, and branches synchronized across all 3 platforms).
