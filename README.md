@@ -1,6 +1,9 @@
 # Wallet (Native Jetpack Compose)
 
 <p align="center">
+  <a href="https://github.com/junksidetm/Wallet"><img src="https://img.shields.io/badge/GitHub-Main-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub Main" /></a>
+  <a href="https://codeberg.org/mrdarksidetm/Wallet"><img src="https://img.shields.io/badge/Codeberg-Mirror-2185d0?style=flat-square&logo=codeberg&logoColor=white" alt="Codeberg Mirror" /></a>
+  <a href="https://gitlab.com/mrdarksidetm/Wallet"><img src="https://img.shields.io/badge/GitLab-Mirror-fc6d26?style=flat-square&logo=gitlab&logoColor=white" alt="GitLab Mirror" /></a>
   <a href="https://github.com/junksidetm/Wallet/actions/workflows/android-ci.yml"><img src="https://github.com/junksidetm/Wallet/actions/workflows/android-ci.yml/badge.svg" alt="CI Status" /></a>
   <a href="https://m3.material.io/"><img src="https://img.shields.io/badge/Design-Material_3_Expressive-0061A4?style=flat-square" alt="Material 3 Expressive" /></a>
   <a href="https://developer.android.com/jetpack/compose"><img src="https://img.shields.io/badge/UI-Jetpack_Compose-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose" /></a>
@@ -162,6 +165,14 @@ Wallet/main/
 Built with ❤️ by **Abhijeet Yadav** ([@junksidetm](https://github.com/junksidetm)).
 
 Wallet is engineered with an **Offline-First, Zero-Telemetry Mandate**: your financial data belongs exclusively to you on your hardware, never in the cloud.
+
+---
+
+## 🌐 Source Mirrors
+
+- **Main (GitHub)**: [github.com/junksidetm/Wallet](https://github.com/junksidetm/Wallet)
+- **Mirror (Codeberg)**: [codeberg.org/mrdarksidetm/Wallet](https://codeberg.org/mrdarksidetm/Wallet)
+- **Mirror (GitLab)**: [gitlab.com/mrdarksidetm/Wallet](https://gitlab.com/mrdarksidetm/Wallet)
 
 ---
 
