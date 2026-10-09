@@ -153,3 +153,27 @@
   - `README.md`
   - `Version.md`
 - **Status**: 100% (Completed & Synced)
+
+## [2026-10-09 22:05:00 IST] - Production Release Pipeline & Direct Download Badge Resolution
+- **Action**: Established automated production release packaging pipeline in GitHub Actions, configured release signing in Gradle, and wired direct APK download badge in README.md.
+- **Components Modified**:
+  - `app/build.gradle.kts`: Added release signing configuration with dynamic keystore detection and debug fallback.
+  - `.github/workflows/android-ci.yml`: Created end-to-end production assembly, keystore initialization, artifact packaging, and automated GitHub Releases job publishing `wallet-universal.apk`.
+  - `README.md`: Connected Direct Link Frame badge href to direct GitHub release asset endpoint.
+  - `Version.md`: Appended tracking entry.
+- **Status**: 100% (Completed)
+
+## [2026-10-09 22:15:00 IST] - Hub Ecosystem URL Migration
+- **Action**: Migrated hub navigation links from `mrdarksidetm.github.io` to `junksidetm.github.io`.
+- **Files Modified**:
+  - `docs/index.html`: Updated navbar brand, Atelier Hub navigation, and footer links.
+  - `Version.md`: Appended ledger entry.
+- **Status**: 100% (Completed)
+
+## [2026-10-09 23:12:00 IST] - Automated GitHub Pages Deployment Pipeline
+- **Action**: Established automated GitHub Pages deployment workflow deploying `docs/` showcase on `main` branch push.
+- **Files Added**:
+  - `.github/workflows/pages.yml`
+- **Files Modified**:
+  - `Version.md`: Appended tracking entry.
+- **Status**: 100% (Completed)

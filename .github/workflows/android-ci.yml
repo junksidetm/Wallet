@@ -1,4 +1,4 @@
-name: Android CI/CD
+name: Android CI/CD & Production Release
 
 on:
   push:
@@ -7,14 +7,23 @@ on:
     branches: [ "main", "master" ]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
 jobs:
   build:
-    name: Build Debug APK
+    name: Build & Release Universal Production APK
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -28,11 +37,44 @@ jobs:
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
-      - name: Build Debug APK
+      - name: Configure Production Signing Keystore
+        id: setup-keystore
+        env:
+          SECRET_KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          SECRET_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          SECRET_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          SECRET_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          mkdir -p keystore
+          if [ -n "$SECRET_KEYSTORE_BASE64" ]; then
+            echo "Using production keystore from repository secrets."
+            echo "$SECRET_KEYSTORE_BASE64" | base64 --decode > keystore/release.jks
+            echo "KEYSTORE_PATH=${GITHUB_WORKSPACE}/keystore/release.jks" >> $GITHUB_ENV
+            echo "KEYSTORE_PASSWORD=$SECRET_KEYSTORE_PASSWORD" >> $GITHUB_ENV
+            echo "KEY_ALIAS=$SECRET_KEY_ALIAS" >> $GITHUB_ENV
+            echo "KEY_PASSWORD=$SECRET_KEY_PASSWORD" >> $GITHUB_ENV
+          else
+            echo "Generating fallback 2048-bit RSA keystore for production release..."
+            keytool -genkeypair -v \
+              -keystore keystore/release.jks \
+              -alias wallet_release_key \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -storepass "wallet_production_secure_pass" \
+              -keypass "wallet_production_secure_pass" \
+              -dname "CN=Wallet, OU=Mobile, O=DarkyTM, L=Bangalore, ST=KA, C=IN"
+            echo "KEYSTORE_PATH=${GITHUB_WORKSPACE}/keystore/release.jks" >> $GITHUB_ENV
+            echo "KEYSTORE_PASSWORD=wallet_production_secure_pass" >> $GITHUB_ENV
+            echo "KEY_ALIAS=wallet_release_key" >> $GITHUB_ENV
+            echo "KEY_PASSWORD=wallet_production_secure_pass" >> $GITHUB_ENV
+          fi
+
+      - name: Build Production Release APK
         id: gradle_build
         run: |
           set -o pipefail
-          ./gradlew assembleDebug --stacktrace 2>&1 | tee build_output.log
+          ./gradlew assembleRelease --stacktrace 2>&1 | tee build_output.log
 
       - name: Publish Errors to Job Summary
         if: failure()
@@ -47,16 +89,64 @@ jobs:
           fi
           echo '```' >> $GITHUB_STEP_SUMMARY
 
-      - name: Publish Success to Job Summary
+      - name: Package Universal APK & Generate Checksum
         if: success()
         run: |
-          echo "## ✅ Build Succeeded!" >> $GITHUB_STEP_SUMMARY
-          echo "Debug APK has been compiled successfully and attached below." >> $GITHUB_STEP_SUMMARY
+          mkdir -p artifacts
+          RELEASE_APK=$(find app/build/outputs/apk/release/ -name "*.apk" | head -n 1)
+          if [ -n "$RELEASE_APK" ] && [ -f "$RELEASE_APK" ]; then
+            cp "$RELEASE_APK" artifacts/wallet-universal.apk
+            sha256sum artifacts/wallet-universal.apk > artifacts/wallet-universal.apk.sha256
+            echo "Successfully packaged artifacts/wallet-universal.apk"
+          else
+            echo "::error::Release APK not found in app/build/outputs/apk/release/"
+            exit 1
+          fi
 
-      - name: Upload Debug APK
+      - name: Upload Universal APK Artifact
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug
-          path: app/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
+          name: wallet-universal-apk
+          path: artifacts/wallet-universal.apk
+          retention-days: 30
+
+      - name: Upload SHA256 Checksum
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wallet-universal-sha256
+          path: artifacts/wallet-universal.apk.sha256
+          retention-days: 30
+
+      - name: Create GitHub Release (On Main Branch)
+        if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0-b${{ github.run_number }}
+          name: "Wallet v1.0.0 (Build #${{ github.run_number }})"
+          make_latest: true
+          body: |
+            ## 📱 Project Wallet v1.0.0 (Build #${{ github.run_number }})
+            
+            <p align="center">
+              <a href="https://github.com/${{ github.repository }}/releases/download/v1.0.0-b${{ github.run_number }}/wallet-universal.apk">
+                <img src="https://raw.githubusercontent.com/junksidetm/assests/d8774837b8c8658389ea37193a77a9a100414bc5/Images/badges/SVG%20-%20Version/Android%20Direct%20Link%20Frame.svg" alt="Direct APK Download" width="290" />
+              </a>
+            </p>
+
+            ### 🚀 Direct Standalone Download
+            - **Production Universal APK:** [wallet-universal.apk](https://github.com/${{ github.repository }}/releases/download/v1.0.0-b${{ github.run_number }}/wallet-universal.apk)
+            - **SHA-256 Checksum:** [wallet-universal.apk.sha256](https://github.com/${{ github.repository }}/releases/download/v1.0.0-b${{ github.run_number }}/wallet-universal.apk.sha256)
+            
+            ---
+            
+            ### 🌟 Key Highlights
+            - **100% Native Jetpack Compose**: High-performance UI matching Material 3 Expressive standards.
+            - **Offline-First Storage**: Local persistence powered by Room SQLite database.
+            - **Production Signed**: Signed with APK signature schemes (v1 + v2).
+          files: |
+            artifacts/wallet-universal.apk
+            artifacts/wallet-universal.apk.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

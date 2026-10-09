@@ -16,6 +16,13 @@
   A fast, 100% offline personal finance manager and expense logger built with <b>Native Android Jetpack Compose</b>, <b>Material 3 Expressive</b>, and <b>Room (SQLite)</b>.
 </p>
 
+<div align="center">
+  <a href="https://github.com/junksidetm/Wallet/releases/latest/download/wallet-universal.apk" target="_blank" rel="noopener noreferrer">
+    <img src="https://raw.githubusercontent.com/junksidetm/assests/d8774837b8c8658389ea37193a77a9a100414bc5/Images/badges/SVG%20-%20Version/Android%20Direct%20Link%20Frame.svg" alt="Direct Link" width="290">
+  </a>
+</div>
+
+
 ---
 
 ## 🧠 Single Source of Truth Architecture
