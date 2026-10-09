@@ -136,7 +136,7 @@
 - **Action**: Created new GitHub repository under `junksidetm/Wallet` and configured simultaneous multi-push synchronization across GitHub, GitLab, and Codeberg.
 - **Changes**:
   - **Remote Architecture:** Configured `origin` remote to push concurrently to GitHub (`https://github.com/junksidetm/Wallet.git`), GitLab (`git@gitlab.com:mrdarksidetm/Wallet.git`), and Codeberg (`git@codeberg.org:mrdarksidetm/Wallet.git`).
-  - **Credential & Identity Mapping:** Configured conditional Git identity (`.gitconfig-github`) utilizing `junksidetm <331540275+junksidetm@users.noreply.github.com>` for GitHub while maintaining `mrdarksidetm <ajukr99901@gmail.com>` for GitLab and Codeberg.
+  - **Credential & Identity Mapping:** Configured conditional Git identity (`.gitconfig-github`) utilizing `junksidetm` for GitHub while maintaining `mrdarksidetm` for GitLab and Codeberg.
   - **Branch Synchronization:** Pushed `main` branch and tags to `junksidetm/Wallet`.
 - **Status:** 100% (GitHub repository created, multi-push remote active, and branches synchronized across all 3 platforms).
 
